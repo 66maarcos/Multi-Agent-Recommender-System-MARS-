@@ -221,3 +221,8 @@ This project involved several key debugging challenges:
 * **Hybrid Recommendation System:** Explore integrating collaborative filtering techniques (like BPR) if user interaction data becomes available.
 * **Advanced Embedding Models:** Experiment with even larger or task-specific embedding models if further semantic improvements are needed and resources allow.
 * **Streamline Data Pipeline:** Automate the data enrichment (plot generation/fetching) and embedding generation as part of a more robust CI/CD pipeline.
+
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).
