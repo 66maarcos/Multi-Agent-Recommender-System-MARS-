@@ -1,8 +1,8 @@
-# Movie-Multi-Agent Chatbot
+# Multi-Agent-Recommender-System-MARS
 
 ## Project Overview
 
-The `Movie-Multi-Agent` project is an intelligent chatbot designed to provide movie-related information and personalized recommendations. It leverages a multi-agent architecture where specialized AI agents collaborate and delegate tasks to fulfill user queries. This system integrates large language models (LLMs) with a custom vector database for semantic search and utilizes dynamically generated content for enhanced functionality.
+The `Multi-Agent-Recommender-System-MARS` project is an intelligent chatbot designed to provide movie-related information and personalized recommendations. It leverages a multi-agent architecture where specialized AI agents collaborate and delegate tasks to fulfill user queries. This system integrates large language models (LLMs) with a custom vector database for semantic search and utilizes dynamically generated content for enhanced functionality.
 
 ## Features
 
@@ -112,9 +112,9 @@ This package manages data access and persistence.
 1.  **User Input:** "Can you recommend a movie like 'Parasite'?" (or "Since I liked 'Electric Mind'...")
 2.  **`Manager Agent`:** Identifies the query as a recommendation request and delegates to `recommender_agent`.
 3.  **`Recommender Agent`:**
-    * Identifies "Parasite" (or "Electric Mind") as the `liked_movie`/`base_query`.
-    * Calls the `critic_agent` with "Parasite."
-4.  **`Critic Agent`:** Analyzes "Parasite" and returns a JSON string containing a thematic `summary` (e.g., "a film about class disparity and social satire").
+    * Identifies the `liked_movie`/`base_query` (e.g., "Parasite" or "Electric Mind").
+    * Calls the `critic_agent` with the identified movie.
+4.  **`Critic Agent`:** Analyzes the movie and returns a JSON string containing a thematic `summary` (e.g., "a film about class disparity and social satire").
 5.  **`Recommender Agent`:** Parses the `summary` from the critic's response. Uses this `summary` as the `base_query` for the `recommend_movies` tool.
 6.  **`recommend_movies` tool:**
     * Embeds the `base_query` (thematic summary).
@@ -128,8 +128,8 @@ This package manages data access and persistence.
 
 1.  **Clone the Repository:**
     ```bash
-    git clone <your-repo-url>
-    cd Movie-Multi-Agent
+    git clone [https://github.com/Vedant-1012/Multi-Agent-Recommender-System-MARS-.git](https://github.com/Vedant-1012/Multi-Agent-Recommender-System-MARS-.git)
+    cd Multi-Agent-Recommender-System-MARS
     ```
 2.  **Create and Activate Virtual Environment:**
     ```bash
@@ -196,13 +196,10 @@ This project involved several key debugging challenges:
     * **Cause:** The LLM-powered recommender agent's instruction was too generic, allowing it to generate creative responses rather than strictly using tool output.
     * **Solution:** Drastically refined the `recommender_agent`'s instruction to explicitly command it to **only use actual movie titles and plots provided by its `recommend_movies` tool** and to "ABSOLUTELY DO NOT INVENT, ALTER, OR HALLUCINATE."
 
-3.  **Embedding Quality for Recommendations:**
-    * **Problem:** Even after fixing hallucination, recommendations for movies like "The Matrix" were often obscure or not highly relevant, and some generated plots for recommendations were inaccurate.
-    * **Cause:** Initial embeddings were based only on 'Title' and 'Genre', which was too simplistic. Later, only 'Generated_Plot' was used, which could be generic for obscure films. The embedding model `all-MiniLM-L6-v2` might also not have been optimal for complex semantic nuances.
-    * **Solution:**
-        * **Updated Embedding Content:** Modified `storage/vector_db.py` to generate embeddings using a combination of `Generated_Plot` **and** `Genre` for a richer semantic representation.
-        * **Updated Embedding Model:** Switched to a more powerful SentenceTransformer model like `all-MiniLM-L12-v2` (or `all-mpnet-base-v2`) for better semantic understanding.
-        * **Required Regeneration:** Ensured old embedding and FAISS index files were deleted to force regeneration with the new content and model.
+3.  **Embedding Generation Issues:**
+    * **Problem:** The embedding generation process would get stuck at 0% during application startup.
+    * **Cause:** This was primarily due to resource demands or potential compatibility issues with the initially chosen larger embedding model (`all-mpnet-base-v2`) on the specific system, or an internal hang during batch processing.
+    * **Solution:** Switched to a different, more stable, and less resource-intensive SentenceTransformer model (`all-MiniLM-L12-v2`). Ensured old embedding and FAISS index files were deleted to force regeneration with the new content and model.
 
 4.  **Persistent `faiss` Module Error (during development/testing):**
     * **Problem:** `ModuleNotFoundError: No module named 'faiss'` when trying to run Python code or scripts.
