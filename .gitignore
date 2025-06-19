@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+.venv/
+venv/
+bin/
+include/
+lib/
+lib64/
+*.egg-info/
+.coverage
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# OS
+.DS_Store
+.Trash/
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.bak
+
+# Machine Learning / Data
+*.csv.gz
+*.pkl
+*.bin
+*.model
+*.pt
+*.tflite
+*.onnx
+*.npy
+*.npz
+*.sqlite3 # If your database is sqlite3, usually dynamic
+*.db # General database files
+
+# Project Specific (Crucial for your project)
+embeddings/imdb_embeddings.csv # Your generated embeddings
+vectorstore/imdb_faiss.index  # Your FAISS index
+
+# Environment Variables (CRUCIAL for sensitive info like API keys)
+.env
